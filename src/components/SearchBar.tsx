@@ -127,6 +127,7 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
       const trimmed = query.trim();
       if (trimmed) {
         setShowSuggestions(false);
+        setSearchStatus(true);
         setSuggestions([]);
         setDropdownRect(null);
         onSearch(trimmed);
