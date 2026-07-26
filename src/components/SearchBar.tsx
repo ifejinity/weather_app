@@ -282,6 +282,9 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
+              onBlur={() => {
+                setShowSuggestions(false);
+              }}
               placeholder="Search for a city..."
               className="flex-1 bg-transparent px-3 sm:px-4 py-3 sm:py-4 text-white placeholder-white/40 outline-none text-sm sm:text-base font-light tracking-tight sm:tracking-wide min-w-0"
               aria-label="Search city"
