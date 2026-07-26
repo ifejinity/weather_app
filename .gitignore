@@ -1,0 +1,10 @@
+node_modules
+.next
+.env.local
+.env.*.local
+.env
+out
+coverage
+.nyc_output
+*.tsbuildinfo
+next-env.d.ts
