@@ -21,7 +21,7 @@ const defaultTheme: WeatherTheme = {
 
 export default function Home() {
   const [searchCity, setSearchCity] = useState<string | null>(null);
-  const { weatherData, isLoading, isError } = useWeather(searchCity);
+  const { weatherData, isLoading, isError, refresh } = useWeather(searchCity);
   const [mounted, setMounted] = useState(false);
   const [selectedForecast, setSelectedForecast] = useState<ForecastItem | null>(null);
 
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
 
             <section className="mt-8 min-h-[200px]" aria-live="polite">
-              {isLoading && !weatherData && (
+              {isLoading && (
                 <div className="flex flex-col items-center justify-center py-20 animate-fade-in-up">
                   <div className="relative w-16 h-16 mb-6">
                     <div className="absolute inset-0 border-4 border-white/10 rounded-full" />
@@ -97,7 +97,7 @@ export default function Home() {
               {weatherData && (
                 <div className={`mt-8 space-y-6 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                   <article aria-label="Current weather" className="animate-card-enter">
-                    <CurrentWeatherCard data={weatherData} theme={theme} />
+                    <CurrentWeatherCard data={weatherData} theme={theme} onRefresh={refresh} isLoading={isLoading} />
                   </article>
                   <section aria-label="3-Hour forecast" className="animate-card-enter" style={{ animationDelay: '120ms' }}>
                     <ForecastList forecast={weatherData.forecast} theme={theme} onSelect={setSelectedForecast} />

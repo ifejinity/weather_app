@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { type KeyedMutator } from 'swr';
 import { fetchCurrentWeather, fetchForecast, transformWeatherData } from './weather';
 import type { CurrentWeatherResponse, ForecastResponse, WeatherData } from '@/types/weather';
 
@@ -44,11 +44,20 @@ export function useWeather(city: string | null) {
     weatherData = transformWeatherData(currentData, forecastData);
   }
 
+  const refresh = () => {
+    if (!city) return Promise.resolve();
+    return Promise.all([
+      currentQuery.mutate(),
+      forecastQuery.mutate(),
+    ]);
+  };
+
   return {
     weatherData,
     isLoading,
     isError: isError as Error | null,
     isSearching: city !== null && !isLoading && !isError && !weatherData,
+    refresh: refresh as () => Promise<void>,
   };
 }
 

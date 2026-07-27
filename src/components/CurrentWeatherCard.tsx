@@ -3,6 +3,8 @@ import type { WeatherData, WeatherTheme } from '@/types/weather';
 interface CurrentWeatherCardProps {
   data: WeatherData;
   theme: WeatherTheme;
+  onRefresh?: () => void;
+  isLoading?: boolean;
 }
 
 function getWindDirection(degrees: number): string {
@@ -11,12 +13,26 @@ function getWindDirection(degrees: number): string {
   return dirs[index];
 }
 
-export default function CurrentWeatherCard({ data, theme }: CurrentWeatherCardProps) {
+export default function CurrentWeatherCard({ data, theme, onRefresh, isLoading }: CurrentWeatherCardProps) {
   const { current } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${current.conditions.icon}@4x.png`;
   
   return (
-    <div className={`${theme.cardBg} backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden transition-all duration-500 hover:shadow-black/40 hover:scale-[1.005] animate-fade-in-up`}>
+    <div className={`${theme.cardBg} backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden transition-all duration-500 hover:shadow-black/40 hover:scale-[1.005] animate-fade-in-up relative`}>
+      {onRefresh && (
+        <button
+          type="button"
+          onClick={onRefresh}
+          disabled={isLoading}
+          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 text-white/80 hover:text-white transition-all duration-200 hover:rotate-180 active:scale-95 disabled:opacity-40 disabled:hover:rotate-0"
+          aria-label="Refresh weather data"
+          title="Refresh"
+        >
+          <svg className={`w-4 h-4 sm:w-5 sm:h-5 ${isLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      )}
       <div className="p-8 sm:p-10">
         <div className="flex flex-col items-center text-center mb-8">
           <div className="mb-4 relative">
