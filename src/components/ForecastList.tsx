@@ -41,7 +41,7 @@ export default function ForecastList({ forecast, theme, onSelect }: ForecastList
     <div className={`${theme.cardBg} backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden animate-slide-up`}>
       <div className="p-8 sm:p-10">
         <h3 className={`text-2xl sm:text-3xl font-bold ${theme.textColor} mb-8 tracking-tight animate-fade-in-up`}>
-          3-Hour Forecast
+          5-Day Forecast
         </h3>
         <div className="relative">
           <button

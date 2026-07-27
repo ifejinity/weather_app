@@ -100,7 +100,7 @@ export default function Home() {
                   <article aria-label="Current weather" className="animate-card-enter">
                     <CurrentWeatherCard data={weatherData} theme={theme} onRefresh={refresh} isLoading={isLoading} />
                   </article>
-                  <section aria-label="3-Hour forecast" className="animate-card-enter" style={{ animationDelay: '120ms' }}>
+                  <section aria-label="5-Day forecast" className="animate-card-enter" style={{ animationDelay: '120ms' }}>
                     <ForecastList forecast={weatherData.forecast} theme={theme} onSelect={setSelectedForecast} />
                   </section>
                   <section aria-label="Forecast trends" className="animate-card-enter" style={{ animationDelay: '360ms' }}>
