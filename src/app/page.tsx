@@ -93,7 +93,7 @@ export default function Home() {
                   <article aria-label="Current weather">
                     <CurrentWeatherCard data={weatherData} theme={theme} />
                   </article>
-                  <section aria-label="5-day forecast">
+                  <section aria-label="3-Hour forecast">
                     <ForecastList forecast={weatherData.forecast} theme={theme} />
                   </section>
                 </div>
