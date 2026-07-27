@@ -204,7 +204,7 @@ export function transformWeatherData(
       sunrise: current.sys.sunrise,
       sunset: current.sys.sunset,
     },
-    forecast: dailyForecast.length > 0 ? dailyForecast : forecast.list.slice(0, 5),
+    forecast:  forecast.list,
     _theme: theme,
     _conditionGroup: group,
   };
