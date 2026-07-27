@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import CurrentWeatherCard from '@/components/CurrentWeatherCard';
 import ForecastList from '@/components/ForecastList';
+import ForecastDetailModal from '@/components/ForecastDetailModal';
 import WeatherBackground from '@/components/WeatherBackground';
 import { useWeather } from '@/lib/swr';
-import type { WeatherTheme, WeatherConditionGroup } from '@/types/weather';
+import type { WeatherTheme, WeatherConditionGroup, ForecastItem } from '@/types/weather';
 
 const defaultTheme: WeatherTheme = {
   gradientFrom: 'from-slate-500',
@@ -22,6 +23,7 @@ export default function Home() {
   const [searchCity, setSearchCity] = useState<string | null>(null);
   const { weatherData, isLoading, isError } = useWeather(searchCity);
   const [mounted, setMounted] = useState(false);
+  const [selectedForecast, setSelectedForecast] = useState<ForecastItem | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -57,17 +59,21 @@ export default function Home() {
 
             <section className="mt-8 min-h-[200px]" aria-live="polite">
               {isLoading && !weatherData && (
-                <div className="flex flex-col items-center justify-center py-20 animate-fade-in">
+                <div className="flex flex-col items-center justify-center py-20 animate-fade-in-up">
                   <div className="relative w-16 h-16 mb-6">
                     <div className="absolute inset-0 border-4 border-white/10 rounded-full" />
                     <div className="absolute inset-0 border-4 border-t-white/80 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
                   </div>
-                  <p className="text-white/60 text-lg font-light">Fetching weather data...</p>
+                  <p className="text-white/60 text-lg font-light tracking-wide">Fetching weather data...</p>
+                  <div className="mt-8 w-full max-w-sm space-y-3">
+                    <div className="h-32 rounded-3xl bg-white/5 border border-white/5 shimmer" />
+                    <div className="h-24 rounded-3xl bg-white/5 border border-white/5 shimmer" />
+                  </div>
                 </div>
               )}
 
               {isError && (
-                <div className="mt-6 p-5 bg-red-500/10 backdrop-blur-sm border border-red-400/20 rounded-2xl text-red-200 text-center animate-fade-in">
+                <div className="mt-6 p-5 bg-red-500/10 backdrop-blur-sm border border-red-400/20 rounded-2xl text-red-200 text-center animate-fade-in-up">
                   <div className="flex items-center justify-center gap-2 mb-2">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -79,7 +85,7 @@ export default function Home() {
               )}
 
               {!weatherData && !isLoading && !isError && searchCity && (
-                <div className="mt-6 text-center text-white/50 animate-fade-in py-12">
+                <div className="mt-6 text-center text-white/50 animate-fade-in-up py-12">
                   <svg className="w-12 h-12 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -90,11 +96,11 @@ export default function Home() {
 
               {weatherData && (
                 <div className={`mt-8 space-y-6 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                  <article aria-label="Current weather">
+                  <article aria-label="Current weather" className="animate-card-enter">
                     <CurrentWeatherCard data={weatherData} theme={theme} />
                   </article>
-                  <section aria-label="3-Hour forecast">
-                    <ForecastList forecast={weatherData.forecast} theme={theme} />
+                  <section aria-label="3-Hour forecast" className="animate-card-enter" style={{ animationDelay: '120ms' }}>
+                    <ForecastList forecast={weatherData.forecast} theme={theme} onSelect={setSelectedForecast} />
                   </section>
                 </div>
               )}
@@ -119,6 +125,14 @@ export default function Home() {
           </footer>
         </div>
       </main>
+
+      {selectedForecast && (
+        <ForecastDetailModal
+          item={selectedForecast}
+          theme={theme}
+          onClose={() => setSelectedForecast(null)}
+        />
+      )}
     </div>
   );
 }

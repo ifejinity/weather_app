@@ -12,6 +12,7 @@ import type { ForecastItem, WeatherTheme } from '@/types/weather';
 interface ForecastListProps {
   forecast: ForecastItem[];
   theme: WeatherTheme;
+  onSelect?: (item: ForecastItem) => void;
 }
 
 function getDayLabel(dtTxt: string): string {
@@ -28,7 +29,7 @@ function getTimeLabel(dtTxt: string): string {
   return date.toLocaleTimeString('en-US', { hour: '2-digit', hour12: true });
 }
 
-export default function ForecastList({ forecast, theme }: ForecastListProps) {
+export default function ForecastList({ forecast, theme, onSelect }: ForecastListProps) {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
 
@@ -39,7 +40,7 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
   return (
     <div className={`${theme.cardBg} backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl shadow-black/20 overflow-hidden animate-slide-up`}>
       <div className="p-8 sm:p-10">
-        <h3 className={`text-2xl sm:text-3xl font-bold ${theme.textColor} mb-8 tracking-tight`}>
+        <h3 className={`text-2xl sm:text-3xl font-bold ${theme.textColor} mb-8 tracking-tight animate-fade-in-up`}>
           3-Hour Forecast
         </h3>
         <div className="relative">
@@ -47,7 +48,7 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
             ref={prevRef}
             type="button"
             aria-label="Previous forecast"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition-colors duration-200"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
           >
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -57,7 +58,7 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
             ref={nextRef}
             type="button"
             aria-label="Next forecast"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition-colors duration-200"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
           >
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -85,7 +86,7 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
             }}
             className="forecast-swiper"
           >
-            {forecast.map((item) => {
+            {forecast.map((item, index) => {
               const iconUrl = `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
               const dayLabel = getDayLabel(item.dt_txt);
               const timeLabel = getTimeLabel(item.dt_txt);
@@ -95,7 +96,12 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
                   key={item.dt}
                   style={{ width: '10rem' }}
                 >
-                  <div className="rounded-2xl p-5 border border-white/5 flex flex-col items-center text-center hover:bg-white/10 hover:border-white/15 hover:scale-[1.02] transition-all duration-300 backdrop-blur-sm relative overflow-hidden group">
+                  <button
+                    type="button"
+                    onClick={() => onSelect?.(item)}
+                    className="rounded-2xl p-5 border border-white/5 flex flex-col items-center text-center transition-all duration-300 hover:bg-white/10 hover:border-white/15 hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm relative overflow-hidden group animate-slide-in-right w-full text-left"
+                    style={{ animationDelay: `${index * 60}ms` }}
+                  >
                     <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative z-10 flex flex-col items-center w-full">
                       <p className={`text-sm font-semibold ${theme.textColor} mb-0.5`}>
@@ -126,7 +132,7 @@ export default function ForecastList({ forecast, theme }: ForecastListProps) {
                         <span className={`text-xs ${theme.labelColor}`}>{item.main.humidity}%</span>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </SwiperSlide>
               );
             })}

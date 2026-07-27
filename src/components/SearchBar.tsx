@@ -209,7 +209,7 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
       className="fixed inset-0 z-[9999]"
     >
       <ul
-        className="animate-fade-in bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden divide-y divide-white/5"
+        className="animate-slide-in-right bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden divide-y divide-white/5"
         role="listbox"
         style={{
           position: 'fixed',
@@ -265,8 +265,8 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
         className="relative w-full px-2 sm:px-0 max-w-xl mx-auto"
       >
         <form onSubmit={handleSubmit} className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-white/50 via-white/20 to-white/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-95 group-hover:scale-100" />
-          <div className="relative flex items-center bg-slate-900/40 backdrop-blur-xl rounded-full border border-white/20 focus-within:border-white/50 transition-all duration-300 overflow-hidden shadow-2xl shadow-black/20 p-1">
+          <div className="absolute -inset-1 bg-gradient-to-r from-white/50 via-white/20 to-white/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100" />
+          <div className="relative flex items-center bg-slate-900/40 backdrop-blur-xl rounded-full border border-white/20 focus-within:border-white/50 focus-within:shadow-lg focus-within:shadow-white/10 transition-all duration-300 overflow-hidden shadow-2xl shadow-black/20 p-1">
             <svg
               className="size-5 ml-4 sm:ml-5 fill-white/50"
               xmlns="http://www.w3.org/2000/svg"
@@ -296,7 +296,7 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
               <button
                 type="button"
                 onClick={handleClear}
-                className="mr-1 sm:mr-2 p-2 sm:p-1.5 rounded-full hover:bg-white/10 transition-colors flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="mr-1 sm:mr-2 p-2 sm:p-1.5 rounded-full hover:bg-white/10 transition-all duration-200 hover:rotate-90 flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Clear search"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -307,7 +307,7 @@ export default function SearchBar({ onSearch, isLoading, initialValue = '' }: Se
             <button
               type="submit"
               disabled={isLoading || !query.trim()}
-              className="mr-1.5 sm:mr-2 px-3 sm:px-5 py-2.5 sm:py-3 bg-white/20 hover:bg-white/30 disabled:bg-white/5 disabled:text-white/20 text-white font-medium rounded-full transition-all duration-300 flex-shrink-0 backdrop-blur-sm border border-white/10 hover:border-white/20 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="mr-1.5 sm:mr-2 px-3 sm:px-5 py-2.5 sm:py-3 bg-white/20 hover:bg-white/30 disabled:bg-white/5 disabled:text-white/20 text-white font-medium rounded-full transition-all duration-300 flex-shrink-0 backdrop-blur-sm border border-white/10 hover:border-white/20 min-w-[44px] min-h-[44px] flex items-center justify-center hover:scale-105 active:scale-95"
             >
               {isLoading ? (
                 <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
