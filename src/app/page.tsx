@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import CurrentWeatherCard from '@/components/CurrentWeatherCard';
 import ForecastList from '@/components/ForecastList';
+import ForecastChart from '@/components/ForecastChart';
 import ForecastDetailModal from '@/components/ForecastDetailModal';
 import WeatherBackground from '@/components/WeatherBackground';
 import { useWeather } from '@/lib/swr';
@@ -101,6 +102,9 @@ export default function Home() {
                   </article>
                   <section aria-label="3-Hour forecast" className="animate-card-enter" style={{ animationDelay: '120ms' }}>
                     <ForecastList forecast={weatherData.forecast} theme={theme} onSelect={setSelectedForecast} />
+                  </section>
+                  <section aria-label="Forecast trends" className="animate-card-enter" style={{ animationDelay: '360ms' }}>
+                    <ForecastChart forecast={weatherData.forecast} theme={theme} />
                   </section>
                 </div>
               )}
